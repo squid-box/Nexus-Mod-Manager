@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <?define ProductVersion=!(bind.FileVersion.AppExecutable) ?>
+  <?if $(var.Platform) = x64 ?>
+  <?define PlatformProgramFilesFolder = "ProgramFiles64Folder" ?>
+  <?else ?>
+  <?define PlatformProgramFilesFolder = "ProgramFilesFolder" ?>
+  <?endif ?>
+
+  <Product 
+    Id="*" 
+    Name="Nexus Mod Manager: Community Edition"
+    Language="1033"
+    Version="$(var.ProductVersion)"
+    Manufacturer="Blacktree Gaming"
+    UpgradeCode="6af12c54-643b-4752-87d0-8335503010de">
+		
+    <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+
+		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+    <MediaTemplate EmbedCab="yes" />
+
+		<Feature Id="ProductFeature" Title="Installer" Level="1">
+			<ComponentGroupRef Id="ProductComponents" />
+      <ComponentGroupRef Id="ShortcutGroup" />
+		</Feature>
+	</Product>
+
+	<Fragment>
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="$(var.PlatformProgramFilesFolder)">
+				<Directory Id="INSTALLFOLDER" Name="Nexus Mod Manager" />
+			</Directory>
+      <Directory Id="DesktopFolder" Name="Desktop" />
+		</Directory>
+	</Fragment>
+
+	<Fragment>
+		<ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+      <Component Id="ApplicationFiles" Guid="9df19338-3072-492a-a093-e14e32010f31">
+        <File Id="AppExecutable" Source="..\Stage\Release\NexusClient.exe" />
+      </Component>
+		</ComponentGroup>
+
+    <ComponentGroup Id="ShortcutGroup" Directory="DesktopFolder">
+      <Component Id="DesktopShortcut" Guid="26380265-17d4-4566-a10e-98267c56dcc4">
+        <Condition>INSTALLDESKTOPSHORTCUT</Condition>
+        <RegistryKey Root="HKCU" Key="NexusModManager">
+          <RegistryValue Name="DesktopShortcut" Value="1" Type="integer" KeyPath="yes"/>
+        </RegistryKey>
+        <Shortcut
+          Id="DesktopShortcut"
+          Directory="DesktopFolder"
+          Name="Nexus Mod Manager"
+          Target="[#AppExecutable]" />
+      </Component>
+    </ComponentGroup>
+	</Fragment>
+</Wix>
