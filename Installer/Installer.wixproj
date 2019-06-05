@@ -26,6 +26,10 @@
     <Error Text="The WiX Toolset v3.11 (or newer) build tools must be installed to build this project. To download the WiX Toolset, see http://wixtoolset.org/releases/" />
   </Target>
   <Target Name="BeforeBuild">
+    <CallTarget Targets="SetVersionNumberForInstaller"/>
+    <CallTarget Targets="CopyFilesToInstallerTemp"/>
+  </Target>
+  <Target Name="SetVersionNumberForInstaller">
     <GetAssemblyIdentity AssemblyFiles="..\Stage\Release\NexusClient.exe">
       <Output TaskParameter="Assemblies" ItemName="AsmInfo" />
     </GetAssemblyIdentity>
@@ -41,5 +45,31 @@
     <CreateProperty Value="$(TargetDir)$(TargetFileName)">
       <Output TaskParameter="Value" PropertyName="TargetPath" />
     </CreateProperty>
+  </Target>
+  <PropertyGroup>
+    <NmmFiles>..\Stage\InstallerTemp</NmmFiles>
+    <DefineConstants>NmmFiles=$(NmmFiles)</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <HarvestDirectory Include="$(NmmFiles)">
+      <InProject>False</InProject>
+      <SuppressRootDirectory>true</SuppressRootDirectory>
+      <SuppressCom>true</SuppressCom>
+      <SuppressRegistry>true</SuppressRegistry>
+      <ComponentGroupName>NmmFiles</ComponentGroupName>
+      <DirectoryRefID>INSTALLFOLDER</DirectoryRefID>
+      <PreprocessorVariable>var.NmmFiles</PreprocessorVariable>
+    </HarvestDirectory>
+  </ItemGroup>
+  <Target Name="CopyFilesToInstallerTemp">
+    <RemoveDir Directories="..\Release\InstallerTemp" />
+    <MakeDir Directories="..\Stage\InstallerTemp" />
+    <ItemGroup>
+      <SourceFiles Include="..\Stage\Release\**\*.dll*;..\Stage\Release\**\*.txt;..\Stage\Release\**\*.rtf" />
+    </ItemGroup>
+    <Copy
+      SourceFiles="@(SourceFiles)"
+      DestinationFiles="@(SourceFiles->'..\Stage\InstallerTemp\%(RecursiveDir)%(Filename)%(Extension)')"
+        />
   </Target>
 </Project>

@@ -18,10 +18,11 @@
     <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
 
 		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
-    <MediaTemplate EmbedCab="yes" />
+    <MediaTemplate EmbedCab="yes" CompressionLevel='high' />
 
 		<Feature Id="ProductFeature" Title="Installer" Level="1">
 			<ComponentGroupRef Id="ProductComponents" />
+      <ComponentGroupRef Id="NmmFiles" />
       <ComponentGroupRef Id="ShortcutGroup" />
 		</Feature>
 	</Product>
@@ -30,7 +31,7 @@
 		<Directory Id="TARGETDIR" Name="SourceDir">
 			<Directory Id="$(var.PlatformProgramFilesFolder)">
 				<Directory Id="INSTALLFOLDER" Name="Nexus Mod Manager" />
-			</Directory>
+        </Directory>
       <Directory Id="DesktopFolder" Name="Desktop" />
 		</Directory>
 	</Fragment>
