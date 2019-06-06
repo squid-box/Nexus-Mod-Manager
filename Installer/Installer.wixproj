@@ -26,8 +26,8 @@
     <Error Text="The WiX Toolset v3.11 (or newer) build tools must be installed to build this project. To download the WiX Toolset, see http://wixtoolset.org/releases/" />
   </Target>
   <Target Name="BeforeBuild">
-    <CallTarget Targets="SetVersionNumberForInstaller"/>
-    <CallTarget Targets="CopyFilesToInstallerTemp"/>
+    <CallTarget Targets="SetVersionNumberForInstaller" />
+    <CallTarget Targets="CopyFilesToInstallerTemp" />
   </Target>
   <Target Name="SetVersionNumberForInstaller">
     <GetAssemblyIdentity AssemblyFiles="..\Stage\Release\NexusClient.exe">
@@ -61,15 +61,18 @@
       <PreprocessorVariable>var.NmmFiles</PreprocessorVariable>
     </HarvestDirectory>
   </ItemGroup>
+  <ItemGroup>
+    <WixExtension Include="WixUIExtension">
+      <HintPath>$(WixExtDir)\WixUIExtension.dll</HintPath>
+      <Name>WixUIExtension</Name>
+    </WixExtension>
+  </ItemGroup>
   <Target Name="CopyFilesToInstallerTemp">
     <RemoveDir Directories="..\Release\InstallerTemp" />
     <MakeDir Directories="..\Stage\InstallerTemp" />
     <ItemGroup>
       <SourceFiles Include="..\Stage\Release\**\*.dll*;..\Stage\Release\**\*.txt;..\Stage\Release\**\*.rtf" />
     </ItemGroup>
-    <Copy
-      SourceFiles="@(SourceFiles)"
-      DestinationFiles="@(SourceFiles->'..\Stage\InstallerTemp\%(RecursiveDir)%(Filename)%(Extension)')"
-        />
+    <Copy SourceFiles="@(SourceFiles)" DestinationFiles="@(SourceFiles->'..\Stage\InstallerTemp\%(RecursiveDir)%(Filename)%(Extension)')" />
   </Target>
 </Project>
