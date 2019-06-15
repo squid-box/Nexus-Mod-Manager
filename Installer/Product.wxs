@@ -29,6 +29,10 @@
       <ComponentGroupRef Id="NmmFiles" />
       <ComponentGroupRef Id="ShortcutGroup" />
       <ComponentRef Id="ApplicationShortcut" />
+      <ComponentRef Id="NxmUrlRegistryEntries" />
+      <ComponentRef Id="NxmFileRegistryEntries" />
+      <ComponentRef Id="FomodFileRegistryEntries" />
+      <ComponentRef Id="OmodFileRegistryEntries" />
 		</Feature>
 
     <DirectoryRef Id="ApplicationProgramsFolder">
@@ -49,6 +53,85 @@
         <RegistryValue Root="HKCU" Key="Software\NexusModManager" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
       </Component>
     </DirectoryRef>
+
+    <DirectoryRef Id="TARGETDIR">
+      <Component Id="NxmUrlRegistryEntries" Guid="026bf88c-73c6-47e4-86b1-765fc750c8e3">
+        <Condition>ASSOCIATE_NXMURLS</Condition>
+        <RegistryKey Root="HKCR"
+                     Key="nxm">
+          <RegistryValue Type="string" Value="URL:Nexus Mod" KeyPath="yes"/>
+          <RegistryValue Type="string" Name="URL Protocol" Value=""/>
+        </RegistryKey>
+        <RegistryKey Root="HKCR"
+                     Key="nxm\DefaultIcon">
+          <RegistryValue Type="string" Value="[#AppExecutable],0"/>
+        </RegistryKey>
+        <RegistryKey Root="HKCR"
+                     Key="nxm\shell\open\command">
+          <RegistryValue Type="string" Value="&quot;[#AppExecutable]&quot; &quot;%1&quot;"/>
+        </RegistryKey>
+      </Component>
+
+      <Component Id="NxmFileRegistryEntries" Guid="9099aff2-8f70-41ab-989e-4674f9271ae8">
+        <Condition>ASSOCIATE_NXMFILES</Condition>
+        <RegistryKey Root="HKCR"
+                     Key=".nxm">
+          <RegistryValue Type="string" Value="NXM_File_Type" KeyPath="yes"/>
+        </RegistryKey>
+        <RegistryKey Root="HKCR"
+                     Key="NXM_File_Type">
+          <RegistryValue Type="string" Value="[ProductName] Mod Archive"/>
+        </RegistryKey>
+        <RegistryKey Root="HKCR"
+                     Key="NXM_File_Type\DefaultIcon">
+          <RegistryValue Type="string" Value="[#AppExecutable],0"/>
+        </RegistryKey>
+        <RegistryKey Root="HKCR"
+                     Key="NXM_File_Type\shell\open\command">
+          <RegistryValue Type="string" Value="&quot;[#AppExecutable]&quot; &quot;%1&quot;"/>
+        </RegistryKey>
+      </Component>
+
+      <Component Id="FomodFileRegistryEntries" Guid="5e70952e-568d-409c-a4c4-c1ba6a8e02f7">
+        <Condition>ASSOCIATE_FOMODFILES</Condition>
+        <RegistryKey Root="HKCR"
+                     Key=".fomod">
+          <RegistryValue Type="string" Value="FOMOD_File_Type" KeyPath="yes"/>
+        </RegistryKey>
+        <RegistryKey Root="HKCR"
+                     Key="FOMOD_File_Type">
+          <RegistryValue Type="string" Value="Fallout Mod Archive"/>
+        </RegistryKey>
+        <RegistryKey Root="HKCR"
+                     Key="FOMOD_File_Type\DefaultIcon">
+          <RegistryValue Type="string" Value="[#AppExecutable],0"/>
+        </RegistryKey>
+        <RegistryKey Root="HKCR"
+                     Key="FOMOD_File_Type\shell\open\command">
+          <RegistryValue Type="string" Value="&quot;[#AppExecutable]&quot; &quot;%1&quot;"/>
+        </RegistryKey>
+      </Component>
+
+      <Component Id="OmodFileRegistryEntries" Guid="ca73f319-9aed-4d9a-bedb-14b46c81b760">
+        <Condition>ASSOCIATE_OMODFILES</Condition>
+        <RegistryKey Root="HKCR"
+                     Key=".omod">
+          <RegistryValue Type="string" Value="OMOD_File_Type" KeyPath="yes"/>
+        </RegistryKey>
+        <RegistryKey Root="HKCR"
+                     Key="OMOD_File_Type">
+          <RegistryValue Type="string" Value="Oblivion Mod Archive"/>
+        </RegistryKey>
+        <RegistryKey Root="HKCR"
+                     Key="OMOD_File_Type\DefaultIcon">
+          <RegistryValue Type="string" Value="[#AppExecutable],0"/>
+        </RegistryKey>
+        <RegistryKey Root="HKCR"
+                     Key="OMOD_File_Type\shell\open\command">
+          <RegistryValue Type="string" Value="&quot;[#AppExecutable]&quot; &quot;%1&quot;"/>
+        </RegistryKey>
+      </Component>
+    </DirectoryRef>
 	</Product>
 
 	<Fragment>
@@ -59,6 +142,13 @@
       <Directory Id="DesktopFolder" Name="Desktop" />
       <Directory Id="ProgramMenuFolder">
         <Directory Id="ApplicationProgramsFolder" Name="Nexus Mod Manager"/>
+      </Directory>
+      <Directory Id="AppDataFolder">
+        <Directory Id="MicrosoftFolder" Name="Microsoft">
+          <Directory Id="InternetExplorerFolder" Name="Internet Explorer">
+            <Directory Id="QuickLaunchFolder" Name="Quick Launch" />
+          </Directory>
+        </Directory>
       </Directory>
 		</Directory>
 	</Fragment>
@@ -79,8 +169,21 @@
         <Shortcut
           Id="DesktopShortcut"
           Directory="DesktopFolder"
-          Name="Nexus Mod Manager"
+          Name="[ProductName]"
           Target="[#AppExecutable]" />
+      </Component>
+      <Component Id="QuickLaunchShortcut" Guid="1895f09a-14a6-4bd1-a308-0d97ebfdb515">
+        <Condition>CREATE_QUICKLAUNCHSHORTCUT</Condition>
+        <RegistryKey Root="HKCU" Key="NexusModManager">
+          <RegistryValue Name="QuickLaunchShortcut" Value="1" Type="integer" KeyPath="yes"/>
+        </RegistryKey>
+        <Shortcut Id="QuickLaunchShortcut"
+                  Name="[ProductName]"
+                  Directory="QuickLaunchFolder"
+                  Target="[#AppExecutable]" />
+        <RemoveFolder Id="CleanUpQuickLaunchShortCut" Directory="QuickLaunchFolder" On="uninstall"/>
+        <RemoveFolder Id="CleanUpQuickLaunchShortCut2" Directory="InternetExplorerFolder" On="uninstall"/>
+        <RemoveFolder Id="CleanUpQuickLaunchShortCut3" Directory="MicrosoftFolder" On="uninstall"/>
       </Component>
     </ComponentGroup>
 	</Fragment>

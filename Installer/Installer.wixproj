@@ -11,10 +11,11 @@
     <OutputPath>..\Stage\Installer\</OutputPath>
     <IntermediateOutputPath>..\Stage\obj\$(Configuration)\</IntermediateOutputPath>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' " />
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <SuppressIces>ICE69</SuppressIces>
+  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
-    <SuppressIces>
-    </SuppressIces>
+    <SuppressIces>ICE69</SuppressIces>
     <SuppressValidation>False</SuppressValidation>
   </PropertyGroup>
   <ItemGroup>
@@ -49,6 +50,12 @@
   <PropertyGroup>
     <NmmFiles>..\Stage\InstallerTemp</NmmFiles>
     <DefineConstants>NmmFiles=$(NmmFiles)</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
+    <SuppressIces>ICE69</SuppressIces>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <SuppressIces>ICE69</SuppressIces>
   </PropertyGroup>
   <ItemGroup>
     <HarvestDirectory Include="$(NmmFiles)">
