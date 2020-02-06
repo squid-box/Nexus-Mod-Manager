@@ -1,15 +1,14 @@
-﻿
-using Nexus.Client.Settings;
-using System;
-namespace Nexus.Client
+﻿namespace Nexus.Client
 {
+    using System;
+    
+    using Nexus.Client.Settings;
+
 	/// <summary>
-	/// Provides information about the current programme environment.
+	/// Provides information about the current program environment.
 	/// </summary>
 	public interface IEnvironmentInfo
 	{
-		#region Properties
-
 		/// <summary>
 		/// Gets the path to the mod manager's folder in the user's personal data folder.
 		/// </summary>
@@ -23,9 +22,9 @@ namespace Nexus.Client
 		string PersonalDataFolderPath { get; }
 
 		/// <summary>
-		/// Gets whether the programme is running under the Mono framework.
+		/// Gets whether the program is running under the Mono framework.
 		/// </summary>
-		/// <value>Whether the programme is running under the Mono framework.</value>
+		/// <value>Whether the program is running under the Mono framework.</value>
 		bool IsMonoMode { get; }
 
 		/// <summary>
@@ -35,10 +34,10 @@ namespace Nexus.Client
 		string TemporaryPath { get; }
 
 		/// <summary>
-		/// Gets the path to the directory where programme data is stored.
+		/// Gets the path to the directory where program data is stored.
 		/// </summary>
-		/// <value>The path to the directory where programme data is stored.</value>
-		string ProgrammeInfoDirectory { get; }
+		/// <value>The path to the directory where program data is stored.</value>
+		string ProgramInfoDirectory { get; }
 
 		/// <summary>
 		/// Gets whether the current process is 64bit.
@@ -57,7 +56,5 @@ namespace Nexus.Client
 		/// </summary>
 		/// <value>The version of the running application.</value>
 		Version ApplicationVersion { get; }
-
-		#endregion
 	}
 }

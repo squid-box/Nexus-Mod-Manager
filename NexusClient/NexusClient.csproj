@@ -60,11 +60,19 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>Nexus.Client.Program</StartupObject>
+    <StartupObject>Nexus.Client.App</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\SharedAssemblyInformation.cs">
       <Link>Properties\SharedAssemblyInformation.cs</Link>
+    </Compile>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="DownloadMonitoring\PurgeDownloadsTask.cs" />
     <Compile Include="EnvironmentInfo.cs" />
@@ -78,6 +86,9 @@
     </Compile>
     <Compile Include="GameModeSelector.cs" />
     <Compile Include="HeaderlessTextWriterTraceListener.cs" />
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ModManagement\UI\EventArgs\ExportFailedEventArgs.cs" />
     <Compile Include="ModManagement\UI\EventArgs\ExportSucceededEventArgs.cs" />
     <Compile Include="ModRepositories\AuthenticationStatus.cs" />
@@ -872,6 +883,10 @@
     <Folder Include="UI\Localization\" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\GameModeSelection\GameModeSelectorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

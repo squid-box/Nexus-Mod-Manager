@@ -354,7 +354,7 @@
 		/// <param name="environmentInfo">The application's envrionment info.</param>
 		protected void SetCompressorPath(EnvironmentInfo environmentInfo)
 		{
-			var sevenZipPath = Path.Combine(environmentInfo.ProgrammeInfoDirectory, environmentInfo.Is64BitProcess ? "7z-64bit.dll" : "7z-32bit.dll");
+			var sevenZipPath = Path.Combine(environmentInfo.ProgramInfoDirectory, environmentInfo.Is64BitProcess ? "7z-64bit.dll" : "7z-32bit.dll");
 			SevenZipCompressor.SetLibraryPath(sevenZipPath);
 		}
 
