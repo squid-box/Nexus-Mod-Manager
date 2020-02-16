@@ -33,16 +33,18 @@
 		/// <value>The game modes factories for installed games.</value>
 		protected GameModeRegistry InstalledGameModes { get; set; }
 
-		/// <summary>
-		/// Gets whether a rescan of install games was requested.
-		/// </summary>
-		/// <value>Whether a rescan of install games was requested.</value>
-		public bool RescanRequested { get; private set; }
+        /// <summary>
+        /// Gets whether a rescan of install games was requested.
+        /// </summary>
+        /// <value>Whether a rescan of install games was requested.</value>
+        public bool RescanRequested => _gameModeSelectorViewModel != null && _gameModeSelectorViewModel.RescanRequested;
 
-		#endregion
+        #endregion
 
         private readonly IEnvironmentInfo _environmentInfo;
-		
+
+        private GameModeSelectorViewModel _gameModeSelectorViewModel;
+
 		/// <summary>
 		/// A simple constructor that initializes the object with the given dependencies.
 		/// </summary>
@@ -60,7 +62,7 @@
 		/// Selects the current game mode.
 		/// </summary>
 		/// <param name="requestedGameMode">The id of the game mode we want to select.</param>
-		/// <param name="changeDefaultGameMode">Whether the users ahs requested a change to the default game mode.</param>
+		/// <param name="changeDefaultGameMode">Whether the users has requested a change to the default game mode.</param>
 		/// <returns>The <see cref="IGameModeFactory"/> that can build the game mode selected by the user.</returns>
 		public IGameModeFactory SelectGameMode(string requestedGameMode, bool changeDefaultGameMode)
 		{
@@ -79,16 +81,21 @@
 				Trace.Write("(From Selection Form) ");
 
 				var gameModeInfos = InstalledGameModes.RegisteredGameModes.ToList();
-				gameModeInfos.Add(new RescanGameModeDescriptor());
 
-                var gameModeSelectorViewModel = new GameModeSelectorViewModel(gameModeInfos, _environmentInfo.Settings);
-				var gameModeSelectorView = new GameModeSelectorView(gameModeSelectorViewModel);
+                _gameModeSelectorViewModel = new GameModeSelectorViewModel(gameModeInfos, _environmentInfo.Settings);
+				var gameModeSelectorView = new GameModeSelectorView(_gameModeSelectorViewModel);
 
                 gameModeSelectorView.ShowDialog();
 
                 if (gameModeSelectorView.DialogResult == true)
                 {
-                    selectedGameModeId = gameModeSelectorViewModel.SelectedGameModeId;
+                    if (RescanRequested)
+                    {
+						Trace.WriteLine("Rescan game modes.");
+                        return null;
+                    }
+
+					selectedGameModeId = _gameModeSelectorViewModel.SelectedGameMode?.ModeId;
                 }
                 else
                 {

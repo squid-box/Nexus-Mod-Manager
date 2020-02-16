@@ -54,7 +54,7 @@ namespace Nexus.Client.UI.Controls
 			p_gdtDetector.TaskEnded += new EventHandler<TaskEndedEventArgs>(Detector_TaskEnded);
 
 			lblGameModeName.Text = GameMode.Name;
-			lblGameModeName.ForeColor = GameMode.ModeTheme.PrimaryColour;
+			lblGameModeName.ForeColor = GameMode.ModeTheme.PrimaryColor;
 
 			pbxGameLogo.Image = new Icon(GameMode.ModeTheme.Icon, 96, 96).ToBitmap();
 		}

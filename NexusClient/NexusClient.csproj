@@ -392,11 +392,11 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UI\Controls\ProfilesListView.designer.cs" />
+    <Compile Include="UI\Converters\GameModeDescriptorToBooleanConverter.cs" />
     <Compile Include="UI\GameModeSelection\GameModeSelectorView.xaml.cs">
       <DependentUpon>GameModeSelectorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\GameModeSelection\GameModeSelectorViewModel.cs" />
-    <Compile Include="UI\GameModeSelection\RescanGameMode.cs" />
     <Compile Include="Util\NexusFileUtil.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -888,6 +888,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\GameModeSelection\GameModeSelectorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\SharedResources.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

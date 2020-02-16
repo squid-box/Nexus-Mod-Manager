@@ -1,26 +1,46 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using Nexus.UI;
-
-namespace Nexus.Client.Games
+﻿namespace Nexus.Client.Games
 {
+    using System.Drawing;
+	using System.Windows;
+    using System.Windows.Interop;
+    using System.Windows.Media;
+    using System.Windows.Media.Imaging;
+    using Color = System.Drawing.Color;
+
+    using Nexus.UI;
+
 	/// <summary>
 	/// Describes visual features of an application.
 	/// </summary>
 	public class Theme
 	{
-		#region Properties
-
-		/// <summary>
+        /// <summary>
 		/// Gets the icon to use for this theme.
 		/// </summary>
 		/// <value>The icon to use for this theme.</value>
 		public Icon Icon
 		{
 			get;
-			private set;
-		}
+        }
+
+		/// <summary>
+		/// Used for WPF views.
+		/// </summary>
+        public ImageSource IconImageSource
+        {
+            get
+            {
+                if (Icon == null)
+                {
+                    return null;
+                }
+
+                return Imaging.CreateBitmapSourceFromHIcon(
+                    Icon.Handle,
+                    Int32Rect.Empty,
+                    BitmapSizeOptions.FromEmptyOptions());
+            }
+        }
 
 		/// <summary>
 		/// Gets the theme's font sets.
@@ -29,36 +49,28 @@ namespace Nexus.Client.Games
 		public FontSetGroup FontSets
 		{
 			get;
-			private set;
-		}
+        }
 
 		/// <summary>
-		/// Gets the theme's primary colour.
+		/// Gets the theme's primary color.
 		/// </summary>
-		/// <value>The theme's primary colour.</value>
-		public Color PrimaryColour
+		/// <value>The theme's primary color.</value>
+		public Color PrimaryColor
 		{
 			get;
-			private set;
-		}
-
-		#endregion
-
-		#region Constructors
+        }
 
 		/// <summary>
 		/// A simple constructor that initializes the theme.
 		/// </summary>
-		/// <param name="p_icnIcon">The icon to use for this theme.</param>
-		/// <param name="p_clrPrimary">The theme's primary colour.</param>
-		/// <param name="p_fsgFontSets">The theme's font sets.</param>
-		public Theme(Icon p_icnIcon, Color p_clrPrimary, FontSetGroup p_fsgFontSets)
+		/// <param name="icon">The icon to use for this theme.</param>
+		/// <param name="primaryColor">The theme's primary color.</param>
+		/// <param name="fontSetGroup">The theme's font sets.</param>
+		public Theme(Icon icon, Color primaryColor, FontSetGroup fontSetGroup)
 		{
-			Icon = p_icnIcon;
-			PrimaryColour = p_clrPrimary;
-			FontSets = p_fsgFontSets ?? new FontSetGroup();
+			Icon = icon;
+			PrimaryColor = primaryColor;
+			FontSets = fontSetGroup ?? new FontSetGroup();
 		}
-
-		#endregion
 	}
 }

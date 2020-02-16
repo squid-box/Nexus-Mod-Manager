@@ -3029,9 +3029,9 @@
 
 					r = g = b = (byte)(0.21 * r + 0.72 * g + 0.07 * b);
 
-					r = (byte)(r / 255.0 * theme.PrimaryColour.R);
-					g = (byte)(g / 255.0 * theme.PrimaryColour.G);
-					b = (byte)(b / 255.0 * theme.PrimaryColour.B);
+					r = (byte)(r / 255.0 * theme.PrimaryColor.R);
+					g = (byte)(g / 255.0 * theme.PrimaryColor.G);
+					b = (byte)(b / 255.0 * theme.PrimaryColor.B);
 
 					changeMode.SetPixel(x, y, Color.FromArgb(old.A, r, g, b));
 				}

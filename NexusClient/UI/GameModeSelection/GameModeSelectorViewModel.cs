@@ -15,15 +15,17 @@
 			_settings = settings;
 		}
 
+		public bool RescanRequested { get; set; }
+
 		/// <summary>
 		/// Whether or not the Remember Selected GameMode checkbox is checked.
 		/// </summary>
 		public bool RememberSelectedGameMode { get; set; }
 
 		/// <summary>
-		/// The currently selected GameMode ID.
+		/// The currently selected GameMode.
 		/// </summary>
-		public string SelectedGameModeId { get; set; }
+		public IGameModeDescriptor SelectedGameMode { get; set; }
 
 		public IEnumerable<IGameModeDescriptor> GameModes { get; }
 
@@ -35,16 +37,9 @@
 		/// </remarks>
 		public void SaveChoice()
 		{
-            if (SelectedGameModeId.Equals(RescanGameModeDescriptor.RescanInstalledGames))
-            {
-                SelectedGameModeId = null;
-            }
-            else
-            {
-				_settings.RememberGameMode = RememberSelectedGameMode;
-                _settings.RememberedGameMode = SelectedGameModeId;
-                _settings.Save();
-			}
-        }
+			_settings.RememberGameMode = RememberSelectedGameMode;
+            _settings.RememberedGameMode = SelectedGameMode?.ModeId;
+            _settings.Save();
+		}
 	}
 }

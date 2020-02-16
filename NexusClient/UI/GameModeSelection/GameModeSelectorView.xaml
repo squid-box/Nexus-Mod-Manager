@@ -1,32 +1,124 @@
-﻿<Window x:Class="Nexus.Client.UI.GameModeSelection.GameModeSelectorView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Nexus.Client.UI.GameModeSelection"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800"
-        Title="Game Selection">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*" />
-            <ColumnDefinition Width="14*" />
-            <ColumnDefinition Width="6*" />
-            <ColumnDefinition Width="1*" />
-            <ColumnDefinition Width="3*" />
-            <ColumnDefinition Width="1*" />
-            <ColumnDefinition Width="3*" />
-            <ColumnDefinition Width="2*" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="5*" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <CheckBox Content="Don't ask me again" Grid.Row="2" Grid.Column="2" VerticalAlignment="Center"/>
-        <Button Content="Ok" Click="Accept" Grid.Column="4" Grid.Row="2" />
-        <Button Content="Cancel" Click="Cancel" Grid.Column="6" Grid.Row="2" />
-        <TextBlock Text="Select game mode" Grid.Row="0" Grid.ColumnSpan="5" Grid.Column="1" />
-        <ListView Name="GameModeList" ItemsSource="{Binding GameModes}" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="6"/>
-    </Grid>
+﻿<Window
+    x:Class="Nexus.Client.UI.GameModeSelection.GameModeSelectorView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="clr-namespace:Nexus.Client.UI.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Nexus.Client.UI.GameModeSelection"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Game Selection"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    Style="{StaticResource DefaultWindowStyle}"
+    mc:Ignorable="d">
+    <Window.Resources>
+        <converters:GameModeInfoToBooleanConverter x:Key="GameModeInfoToBooleanConverter" />
+    </Window.Resources>
+    <Border Style="{StaticResource WindowOuterBorderStyle}">
+        <Border Style="{StaticResource WindowBorderStyle}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="8*" />
+                    <ColumnDefinition Width="6*" />
+                    <ColumnDefinition Width="6*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition Width="2*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*" />
+                    <RowDefinition Height="7*" />
+                    <RowDefinition Height="2*" />
+                </Grid.RowDefinitions>
+                <Button
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Click="RescanGameModes"
+                    Content="Rescan game modes"
+                    Style="{StaticResource DefaultButtonStyle}">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="16" />
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <CheckBox
+                    Grid.Row="2"
+                    Grid.Column="3"
+                    VerticalAlignment="Center"
+                    Content="Don't ask me again" />
+                <Button
+                    Grid.Row="2"
+                    Grid.Column="5"
+                    Click="Cancel"
+                    Content="Cancel"
+                    Style="{StaticResource DefaultButtonStyle}">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="16" />
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button
+                    Grid.Row="2"
+                    Grid.Column="7"
+                    Click="Accept"
+                    Content="Ok"
+                    IsEnabled="{Binding SelectedGameMode, Converter={StaticResource GameModeInfoToBooleanConverter}}"
+                    Style="{StaticResource DefaultButtonStyle}">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="16" />
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <TextBlock
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="5"
+                    Style="{StaticResource WindowTitleTextStyle}"
+                    Text="Select game mode" />
+                <ListView
+                    Name="GameModeList"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="7"
+                    Background="Transparent"
+                    ItemsSource="{Binding GameModes}"
+                    SelectedItem="{Binding SelectedGameMode}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Border
+                                Padding="6"
+                                Background="Black"
+                                CornerRadius="4">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="2*" />
+                                        <ColumnDefinition Width="2*" />
+                                        <ColumnDefinition Width="7*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <Image
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        Source="{Binding ModeTheme.IconImageSource}" />
+                                    <TextBlock
+                                        Grid.Row="0"
+                                        Grid.Column="2"
+                                        Style="{StaticResource WindowTitleTextStyle}"
+                                        Text="{Binding Name}" />
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+        </Border>
+    </Border>
 </Window>
